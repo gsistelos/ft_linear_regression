@@ -1,4 +1,16 @@
-def normalize(df):
+from pandas import DataFrame
+
+
+def normalize_dataframe(df: DataFrame) -> DataFrame:
+    """
+    Perform Min-Max normalization to scale values from 0 to 1.
+
+    Normalization helps improve the performance
+    of machine learning algorithms by ensuring that
+    features on different scales do not bias the results
+
+    Normalized value = (x - min) / (max - min)
+    """
     return (df - df.min()) / (df.max() - df.min())
 
 
