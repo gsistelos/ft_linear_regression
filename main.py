@@ -8,7 +8,7 @@ import plot_utils as pu
 if __name__ == "__main__":
     df = pd.read_csv('data.csv')
 
-    df = mu.normalize_dataframe(df)
+    df = mu.z_score_normalization(df, df.mean(), df.std())
     n = len(df)
 
     x = df['km']
@@ -17,12 +17,6 @@ if __name__ == "__main__":
     x_mean = mu.calculate_mean(x, n)
     y_mean = mu.calculate_mean(y, n)
 
-    # slope = mu.calculate_slope(x, y, x_mean, y_mean, n)
-    # intercept = mu.calculate_intercept(x_mean, y_mean, slope)
+    intercept, slope = mu.gradient_descent(x, y)
 
-    slope = 0
-    intercept = 0
-
-    slope, intercept = mu.gradient_descent(x, y, slope, intercept, 0.01, 10)
-
-    pu.plot_linear_function(x, y, slope, intercept)
+    pu.plot(x, y, slope, intercept)

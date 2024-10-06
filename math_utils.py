@@ -1,101 +1,62 @@
-from pandas import DataFrame
 from typing import List
 
 
-def normalize_dataframe(df: DataFrame) -> DataFrame:
+def z_score_normalization(
+    x: List[float],
+    mean: float,
+    std: float
+) -> List[float]:
     """
     Perform Z-score normalization to standardize the values
 
     Z-score normalization centers the data around the mean (0)
     and scales it by the standard deviation (1)
-
-    Normalized value = (x - mean) / std
     """
-    return (df - df.mean()) / df.std()
+    return (x - mean) / std
 
 
 def calculate_mean(x: List[float], n: int) -> float:
-    """
-    Calculate the mean of a list of numbers
-
-    Mean = sum(x) / n
-    """
-    total_sum = 0
-
-    for value in x:
-        total_sum += value
-
-    mean = total_sum / n
-    return mean
-
-
-def calculate_slope(
-    x: List[float], y: List[float],
-    x_mean: float, y_mean: float,
-    n: int,
-) -> float:
-    """
-    Calculate the slope of the regression line
-
-    The slope quantifies how much y changes for a unit change in x
-
-    Slope = sum((x - x_mean) * (y - y_mean)) / sum((x - x_mean)^2)
-    """
-    numerator = 0
-    denominator = 0
-
-    for i in range(n):
-        x_deviation = (x[i] - x_mean)
-        y_deviation = (y[i] - y_mean)
-
-        numerator += x_deviation * y_deviation
-        denominator += x_deviation ** 2
-
-    return numerator / denominator
-
-
-def calculate_intercept(
-    x_mean: float, y_mean: float, slope: float,
-) -> float:
-    """
-    Calculate the intercept of the regression line
-
-    Intercept is the value of y when x is 0
-
-    Intercept = y_mean - slope * x_mean
-    """
-    return y_mean - slope * x_mean
+    return sum(x) / n
 
 
 def gradient_descent(
-    x: List[float], y: List[float],
-    slope: float, intercept: float,
+    x: List[float],
+    y: List[float],
     learning_rate: float = 0.01,
     max_iterations: int = 1000,
 ) -> tuple[float, float]:
     """
-    Perform gradient descent to update the slope and intercept
+    Perform gradient descent to find the best-fit line for the given data
 
-    Gradient descent is an optimization algorithm that minimizes
-    the error between the predicted and actual values
+    The best-fit line is represented by the equation:
+    y(x) = theta_0 + (theta_1 * x)
 
-    New slope = slope - learning_rate * d_slope
-    New intercept = intercept - learning_rate * d_intercept
+    - theta_0 (intercept): The value of y when x = 0
+    - theta_1 (slope): The rate of change in y with respect to x
+
+    Example:
+    - Let's say we have the following data:
+    - x = [0, 1, 2] (kilometers)
+    - y = [1000, 800, 600] (price)
+    - theta_0 = 1000 (base price)
+    - theta_1 = -200 (increase per kilometer)
+    The best-fit line would be: y(x) = 1000 + (-200 * x)
+
+    The estimated price for 3 and 4 kilometers would be:
+    - y(3) = 1000 + (-200 * 3) = 400
+    - y(4) = 1000 + (-200 * 4) = 200
     """
-    n = len(x)
+    theta_0 = 0
+    theta_1 = 0
+
+    m = len(y)  # Number of data points
 
     for _ in range(max_iterations):
-        d_slope = 0
-        d_intercept = 0
+        y_pred = theta_0 + theta_1 * x
 
-        for i in range(n):
-            y_pred = slope * x[i] + intercept
-            y_diff = y[i] - y_pred
+        error = y_pred - y
 
-            d_slope += -2 * x[i] * y_diff
-            d_intercept += -2 * y_diff
+        theta_0 -= learning_rate * calculate_mean(error, m)
+        theta_1 -= learning_rate * calculate_mean(error * x, m)
 
-        slope -= learning_rate * d_slope
-        intercept -= learning_rate * d_intercept
-
-    return slope, intercept
+    return theta_0, theta_1
