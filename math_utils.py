@@ -15,13 +15,14 @@ def z_score_normalization(
     return (x - mean) / std
 
 
-def calculate_mean(x: List[float], n: int) -> float:
-    return sum(x) / n
+def calculate_mean(x: List[float], m: int) -> float:
+    return sum(x) / m
 
 
 def gradient_descent(
     x: List[float],
     y: List[float],
+    m: int,
     learning_rate: float = 0.01,
     max_iterations: int = 1000,
 ) -> tuple[float, float]:
@@ -48,8 +49,6 @@ def gradient_descent(
     """
     theta_0 = 0
     theta_1 = 0
-
-    m = len(y)  # Number of data points
 
     for _ in range(max_iterations):
         y_pred = theta_0 + theta_1 * x
