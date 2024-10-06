@@ -1,22 +1,20 @@
-from matplotlib.pyplot import scatter, plot, xlabel, ylabel, title, legend, show
+from typing import List
+import matplotlib.pyplot as plt
 
 
-def plot_linear_function(df, x_values, y_values):
-    scatter(df['km'], df['price'])
+def plot_linear_function(
+    x: List[float], y: List[float],
+    slope: float, intercept: float
+) -> None:
+    """
+    Plot the linear function y = mx + b
+    """
+    plt.scatter(x, y)
 
-    xlabel('Kilometers')
-    ylabel('Price')
+    plt.plot(x, slope * x + intercept, color='red')
 
-    show()
+    plt.xlabel('Kilometers')
+    plt.ylabel('Price')
 
-    scatter(df['km'], df['price'],
-            label='Normalized Data', color='blue')
-    plot(x_values, y_values, label='Fitted Line', color='red')
-
-    xlabel('Normalized km')
-    ylabel('Normalized Price')
-
-    title('Linear Fit of Normalized Data')
-    legend()
-
-    show()
+    plt.title('Linear Regression with Gradient Descent')
+    plt.show()

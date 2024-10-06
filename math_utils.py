@@ -65,3 +65,37 @@ def calculate_intercept(
     Intercept = y_mean - slope * x_mean
     """
     return y_mean - slope * x_mean
+
+
+def gradient_descent(
+    x: List[float], y: List[float],
+    slope: float, intercept: float,
+    learning_rate: float = 0.01,
+    max_iterations: int = 1000,
+) -> tuple[float, float]:
+    """
+    Perform gradient descent to update the slope and intercept
+
+    Gradient descent is an optimization algorithm that minimizes
+    the error between the predicted and actual values
+
+    New slope = slope - learning_rate * d_slope
+    New intercept = intercept - learning_rate * d_intercept
+    """
+    n = len(x)
+
+    for _ in range(max_iterations):
+        d_slope = 0
+        d_intercept = 0
+
+        for i in range(n):
+            y_pred = slope * x[i] + intercept
+            y_diff = y[i] - y_pred
+
+            d_slope += -2 * x[i] * y_diff
+            d_intercept += -2 * y_diff
+
+        slope -= learning_rate * d_slope
+        intercept -= learning_rate * d_intercept
+
+    return slope, intercept
