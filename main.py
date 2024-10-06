@@ -8,15 +8,16 @@ import plot_utils as pu
 if __name__ == "__main__":
     df = pd.read_csv('data.csv')
 
-    df = mu.z_score_normalization(df, df.mean(), df.std())
+    normalized_df = mu.z_score_normalization(df, df.mean(), df.std())
     m = len(df)
+
+    normalized_theta_0, normalized_theta_1 = mu.gradient_descent(
+        normalized_df['km'], normalized_df['price'], m)
 
     x = df['km']
     y = df['price']
 
-    x_mean = mu.calculate_mean(x, m)
-    y_mean = mu.calculate_mean(y, m)
+    theta_1 = normalized_theta_1 * (y.std() / x.std())
+    theta_0 = y.mean() - (theta_1 * x.mean())
 
-    intercept, slope = mu.gradient_descent(x, y, m)
-
-    pu.plot(x, y, slope, intercept)
+    pu.plot(x, y, theta_0, theta_1)

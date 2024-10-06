@@ -1,11 +1,4 @@
-from typing import List
-
-
-def z_score_normalization(
-    x: List[float],
-    mean: float,
-    std: float
-) -> List[float]:
+def z_score_normalization(x, mean: float, std: float):
     """
     Perform Z-score normalization to standardize the values
 
@@ -15,13 +8,17 @@ def z_score_normalization(
     return (x - mean) / std
 
 
-def calculate_mean(x: List[float], m: int) -> float:
+def calculate_mean(x, m: int) -> float:
     return sum(x) / m
 
 
+def predict(x, theta_0: float, theta_1: float):
+    return theta_0 + theta_1 * x
+
+
 def gradient_descent(
-    x: List[float],
-    y: List[float],
+    x,
+    y,
     m: int,
     learning_rate: float = 0.01,
     max_iterations: int = 1000,
@@ -51,7 +48,7 @@ def gradient_descent(
     theta_1 = 0
 
     for _ in range(max_iterations):
-        y_pred = theta_0 + theta_1 * x
+        y_pred = predict(x, theta_0, theta_1)
 
         error = y_pred - y
 
@@ -59,3 +56,7 @@ def gradient_descent(
         theta_1 -= learning_rate * calculate_mean(error * x, m)
 
     return theta_0, theta_1
+
+
+def mean_squared_error(x, x_pred, m: int) -> float:
+    return sum((x_pred - x) ** 2) / m
