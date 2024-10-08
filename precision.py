@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import pandas as pd
-from utils import get_model
+
+from utils import get_model, plot_data, plot_function
+
 
 if __name__ == '__main__':
     df = pd.read_csv('data.csv')
@@ -28,3 +30,6 @@ if __name__ == '__main__':
 
     print(f'Mean Squared Error: {mse:.2f}')
     print(f'Mean Absolute Error: {mae:.2f}')
+
+    plot_data(x, y, 'Data')
+    plot_function(x, y, intercept, slope, 'Linear Function')

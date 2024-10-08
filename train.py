@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from utils import plot_data, plot_function
+# from utils import plot_data, plot_function
 
 
 def z_score_normalization(x):
@@ -26,7 +26,7 @@ def gradient_descent(x, y, learning_rate, max_iterations):
     return theta_0, theta_1
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     df = pd.read_csv('data.csv')
 
     x = df['km']
@@ -42,11 +42,11 @@ if __name__ == "__main__":
     slope = n_slope * y.std() / x.std()
     intercept = y.mean() - (slope * x.mean())
 
-    plot_data(x, y)
-    plot_data(n_x, n_y, "Normalized Data")
+    # plot_data(x, y, 'Data')
+    # plot_data(n_x, n_y, 'Normalized Data')
 
-    plot_function(n_x, n_y, n_intercept, n_slope, "Normalized Linear Function")
-    plot_function(x, y, intercept, slope)
+    # plot_function(n_x, n_y, n_intercept, n_slope, 'Normalized Linear Function')
+    # plot_function(x, y, intercept, slope, 'Linear Function')
 
     with open('model.txt', 'w') as f:
-        f.write(f"{intercept}\n{slope}\n")
+        f.write(f'{intercept}\n{slope}\n')

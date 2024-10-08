@@ -4,14 +4,14 @@ from utils import get_model
 
 
 def get_input():
-    x = int(input("Mileage (km): "))
+    x = int(input('Mileage (km): '))
     if x < 0:
         raise ValueError
 
     return x
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         intercept, slope = get_model()
 
@@ -27,9 +27,9 @@ if __name__ == "__main__":
         x = get_input()
 
     except ValueError:
-        print("Please enter a positive number.")
+        print('Please enter a positive number.')
         exit(1)
 
     pred = intercept + (slope * x)
 
-    print(f"The estimated price is {pred:.2f}€")
+    print(f'The estimated price is {pred:.2f}€')
